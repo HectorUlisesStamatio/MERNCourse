@@ -25,4 +25,29 @@ app.get('/api/books/:id', (req,resp) => {
     resp.send(book)
 })
 
+app.post('/api/books/addBook', (req,resp) => {
+    const book = {
+        id:books.length+1,
+        title: req.body.title,
+    }
+    books.push(book)
+    resp.send(book)
+})
+
+app.put('/api/books/:id', (req,resp) => {
+    const book = books.find(v => v.id === parseInt(req.params.id));
+    if(!book) resp.status(404).send('Book not found')
+
+    book.title = req.body.title
+    resp.send(book)
+})
+
+app.delete('/api/books/:id', (req,resp) =>{
+    const book = books.find(v => v.id === parseInt(req.params.id));
+    if(!book) resp.status(404).send('Book not found')
+    const index = books.indexOf(book)
+    books.splice(index, 1)
+    resp.send(book)
+})
+
 app.listen(8080)
