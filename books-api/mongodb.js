@@ -25,6 +25,22 @@ app.get('/api/books/:id',(req,resp) => {
     })
 })
 
+app.post('/api/books/addBook', (req, resp) =>{
+    let res = database.collection('books').find({}).sort({id: -1}).limit(1)
+    res.forEach(obj =>{
+        if(obj){
+            let book = {
+                id: obj.id + 1,
+                name: req.body.name
+            }
+            database.collection('books').insertOne(book, (err,result)=>{
+                if(err) resp.status(500).send(err)
+                resp.send('Added successfully')
+            })
+        }
+    })
+})
+
 app.listen(8080, () =>{
     MongoClient.connect('mongodb://localhost:27017',{useNewUrlParser:true},(error, result) =>{
         if(error) throw error;
