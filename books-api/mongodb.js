@@ -41,6 +41,28 @@ app.post('/api/books/addBook', (req, resp) =>{
     })
 })
 
+app.put('/api/books/:id',(req,resp) => {
+    let query = {id: parseInt(req.params.id)}
+    let book = {
+        id: parseInt(req.params.id),
+        name: req.body.name
+    }
+    let dataSet = {
+        $set: book
+    }
+    database.collection('books').updateOne(query,dataSet, (err,result)=>{
+        if(err) throw err
+        resp.send(book)
+    })
+})
+
+app.delete('/api/books/:id',(req,resp) => {
+    database.collection('books').deleteOne({id: parseInt(req.params.id)},(err,result)=>{
+        if(err) throw err
+        resp.send("DeleteOperation Sucessfully")
+    })
+})
+
 app.listen(8080, () =>{
     MongoClient.connect('mongodb://localhost:27017',{useNewUrlParser:true},(error, result) =>{
         if(error) throw error;
