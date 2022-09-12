@@ -1,4 +1,4 @@
-# MERNCourse
+# 🚀MERNCourse
 
 This repository is part of a MERN course exploring different technologies and creating projects using those technologies individually and then implementing them together in a project.
 
@@ -25,6 +25,58 @@ todo-app
 ```bash
   npm start
 ```
+
+## 🎯API Reference Index.js & Mongodb.js 
+
+#### Get all books
+
+```http
+  GET /api/books
+```
+
+#### Get books
+
+```http
+  GET /api/books/:id
+```
+
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `Id`      | `int`    | **Required**. Id of book to fetch |
+
+#### Insert book
+
+```http
+  POST /api/books/addBook
+```
+
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `Name`    | `String` | **Required**. Name of book to insert |
+
+#### Update book
+
+```http
+  PUT /api/books/:id
+```
+
+| Parameter | Type     | Description                              |
+| :-------- | :------- | :--------------------------------        |
+| `Id`      | `Int`    | **Required**. Id of book to update       |
+| `Name`    | `String` | **Required**. New name of book to update |
+
+#### Delete books
+
+```http
+  DELETE /api/books/:id
+```
+
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `Id`      | `int`    | **Required**. Id of book to delete|
+
+
+
 
 
 ## Author
