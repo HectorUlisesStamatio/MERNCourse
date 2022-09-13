@@ -74,7 +74,7 @@ app.get('/', (req,resp) => {
 /**
  * @swagger
  * components:
- *      schema:
+ *      schemas:
  *          Book:
  *              type: object
  *              properties:
@@ -100,7 +100,7 @@ app.get('/', (req,resp) => {
  *                      schema:
  *                          type: array
  *                          items:
- *                              $ref: '#components/schema/Book'
+ *                              $ref: '#components/schemas/Book'
  */
 app.get('/api/books',(req,resp) => {
     database.collection('books').find({}).toArray((err,result) =>{
@@ -130,7 +130,7 @@ app.get('/api/books',(req,resp) => {
  *                      schema:
  *                          type: array
  *                          items:
- *                              $ref: '#components/schema/Book'
+ *                              $ref: '#components/schemas/Book'
  */
 app.get('/api/books/:id',(req,resp) => {
     database.collection('books').find({id: parseInt(req.params.id)}).toArray((err,result) =>{
@@ -139,6 +139,24 @@ app.get('/api/books/:id',(req,resp) => {
     })
 })
 
+
+/**
+ * @swagger
+ * /api/books/addBook:
+ *  post:
+ *      summary: used to insert data to mongodb.
+ *      description: This api is used to fetch data from MongoDB.
+ *      requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      $ref: '#components/schemas/Book' 
+ *      responses: 
+ *          200:
+ *              description: Added successfully
+ *             
+ */
 app.post('/api/books/addBook', (req, resp) =>{
     let res = database.collection('books').find({}).sort({id: -1}).limit(1)
     res.forEach(obj =>{
@@ -155,6 +173,36 @@ app.post('/api/books/addBook', (req, resp) =>{
     })
 })
 
+/**
+ * @swagger
+ * /api/books/{id}:
+ *  put:
+ *      summary: used to update data to mongodb.
+ *      description: This api is used to fetch data from MongoDB.
+ *      parameters:
+ *          - in: path
+ *            name: id
+ *            required: true
+ *            description: Numeric ID required
+ *            schema:
+ *                 type: integer
+ *      requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      $ref: '#components/schemas/Book' 
+ *      responses: 
+ *          200:
+ *              description: Updated successfully
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: array
+ *                          items:
+ *                              $ref: '#components/schemas/Book'
+ *             
+ */
 app.put('/api/books/:id',(req,resp) => {
     let query = {id: parseInt(req.params.id)}
     let book = {
@@ -170,6 +218,24 @@ app.put('/api/books/:id',(req,resp) => {
     })
 })
 
+
+/**
+ * @swagger
+ * /api/books/{id}:
+ *  delete:
+ *      summary: To delete a book from mongodb.
+ *      description: This api is used to fetch data from MongoDB.
+ *      parameters:
+ *        - in: path
+ *          name: id
+ *          required: true
+ *          description: Numeric ID required
+ *          schema:
+ *              type: integer
+ *      responses: 
+ *          200:
+ *              description: DeleteOperation Sucessfully
+ */
 app.delete('/api/books/:id',(req,resp) => {
     database.collection('books').deleteOne({id: parseInt(req.params.id)},(err,result)=>{
         if(err) throw err
@@ -177,6 +243,11 @@ app.delete('/api/books/:id',(req,resp) => {
     })
 })
 
+/*
+--------------------------------------------
+| ⚙️ Starting the express app with MongoDb | 
+--------------------------------------------
+*/
 app.listen(8080, () =>{
     MongoClient.connect('mongodb://localhost:27017',{useNewUrlParser:true},(error, result) =>{
         if(error) throw error;
