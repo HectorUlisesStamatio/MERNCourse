@@ -21,9 +21,13 @@ Y8a.    .a8P 88 88 aa    ]8I "8b,   ,aa aa    ]8I    Y8a     a8P 88,   88,    ,8
         nodemon mongodb.js 
 */ 
 
+/*
+----------------------------------------
+| ⚙️ Importing cors                    | 
+----------------------------------------
+*/
 
-
-
+const cors = require('cors');
 /*
 ----------------------------------------
 | ⚙️ Importing express                 | 
@@ -45,6 +49,7 @@ const MongoClient = require('mongodb').MongoClient
 ----------------------------------------
 */
 const app = express()
+app.use(cors())
 /*
 ----------------------------------------
 | ⚙️ Importing Swagger                 | 
